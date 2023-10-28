@@ -1,3 +1,9 @@
+/*
+Nome dos integrantes da dupla:
+    Hugo das Chagas Silva - 553635
+    Laura Soléria Lobo Vitorino Maciel - 555523
+*/
+
 #ifndef QUEUE_H
 #define QUEUE_H
 #include <stdexcept> // cabecalho que contem as classes de exception
