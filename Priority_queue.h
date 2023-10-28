@@ -1,7 +1,7 @@
 /*
-Nome dos integrantes da dupla:
-    Hugo das Chagas Silva - 553635
-    Laura Soléria Lobo Vitorino Maciel - 555523
+    Nome dos integrantes da dupla:
+        Hugo das Chagas Silva - 553635
+        Laura Soléria Lobo Vitorino Maciel - 555523
 */
 
 #ifndef PRIORITY_QUEUE_H
@@ -16,7 +16,7 @@ private:
         Type value;
         Node* next;
 
-        Node(const Type& val, Node* nextPtr)
+        Node(const Type& val, Node* nextPtr) 
             : value(val), next(nextPtr) {}
     };
 
@@ -24,9 +24,11 @@ private:
 
 public:
     // Construtor default
+    // Complexidade O(1)
     PriorityQueue() = default;
 
     // Função const para retornar o tamanho da fila de prioridade.
+    // Complexidade O(n)
     unsigned int size() const {
         unsigned int count = 0;
         Node* current = m_first;
@@ -39,7 +41,7 @@ public:
     
     // Parte principal do codigo.
     // Funcao que insere elemento na fila.
-    // Complexidade O(1).
+    // Complexidade O(n).
      void push(const Type& elem) {
         Node* newNode = new Node(elem, nullptr);
         //Caso 1: se a fila estiver vazia ou o numero for menor que o primeiro
@@ -74,6 +76,7 @@ public:
 
     //Esta função retorna o elemento de maior prioridade na fila, sem removê-lo.
     //Se a lista estiver vazia, lanca uma exception
+    // Complexidade O(1).
     Type& top() {
         if (empty()) {
             throw std::runtime_error("fila de prioridade vazia");
@@ -81,7 +84,7 @@ public:
         return m_first->value;
     }
 
-    // Função const para verificar seja a fila está vazia.
+    // Função const para verificar se a fila está vazia.
     //Complexidade O(1).
     bool empty() const {
         return m_first == nullptr || m_first == 0;
@@ -90,6 +93,7 @@ public:
     // Destrutor: deleta todos os nos da fila
     // Enquanto houver algum elemento na lista, ele o destroi o primeiro
     // torna o segundo o primeiro, e assim sucessivamente.
+    // Complexidade O(n).
     ~PriorityQueue() {
         while (m_first) {
             Node* temp = m_first;
