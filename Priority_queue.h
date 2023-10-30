@@ -87,7 +87,7 @@ public:
     // Função const para verificar se a fila está vazia.
     //Complexidade O(1).
     bool empty() const {
-        return m_first == nullptr || m_size == 0;
+        return m_first == nullptr;
     }
 
     // Destrutor: deleta todos os nos da fila
