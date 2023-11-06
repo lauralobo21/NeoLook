@@ -4,6 +4,10 @@
         Laura Soléria Lobo Vitorino Maciel - 555523
 */
 
+
+// NÃO NECESSÁRIA PARA A PRIMEIRA PARTE DO PROJETO
+
+
 #include <iostream>
 #include <vector>
 #include <fstream> //Para ler e escrever arquivos .txt
@@ -12,7 +16,9 @@
 #include "Eventos.h"
 #include "Processos.h"
 #include "Comp.h"
+
 using namespace std;
+
 
 int main( ){
     
@@ -48,9 +54,11 @@ int main( ){
         cout << "Erro ao abrir o arquivo." << endl;
         return 1; // Retorna um código de erro se o arquivo não puder ser aberto
     }
+
         //
         //Apartir daqui eu começo a distribuir os processos de forma aleatoria nos computadores
         //
+
     // Inicializa a semente para geração de números aleatórios
     srand(static_cast<unsigned int>(time(0)));
     vector< Computador > Computadores(1000);
@@ -84,6 +92,7 @@ int main( ){
         cout << "Tempo: " << InstanteExato << endl;
         for (auto& computador : Computadores) {
             computador.executeStep(InstanteExato);
+            //direcionamento dos dados e em sequencia a partida para o o bloco de rede
         }
     }
 
