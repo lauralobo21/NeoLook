@@ -3,7 +3,6 @@
         Hugo das Chagas Silva - 553635
         Laura Soléria Lobo Vitorino Maciel - 555523
 */
-
 #include "Queue.h"
 #include <iostream>
 using namespace std;

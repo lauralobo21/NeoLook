@@ -4,10 +4,6 @@
         Laura Soléria Lobo Vitorino Maciel - 555523
 */
 
-
-//  NÃO NECESSÁRIA PARA A PRIMEIRA PARTE DO PROJETO
-
-
 #ifndef COMPUTADOR_H
 #define COMPUTADOR_H
 
@@ -17,7 +13,6 @@
 #include "Queue.h"
 #include "Priority_queue.h"
 #include "Processos.h"
-
 using namespace std;
 
 class Computador {

@@ -8,6 +8,6 @@ struct Evento
     int instanteDeTempo;   // Tempo do evento 
     string acontecimento;  // Descrição do evento
 
-}
+};
 
 #endif

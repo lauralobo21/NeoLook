@@ -4,11 +4,6 @@
         Laura Soléria Lobo Vitorino Maciel - 555523
 */
 
-
-
-// NÃO NECESSÁRIA PARA A PRIMEIRA PARTE DO PROJETO
-
-
 #include <iostream>
 #include <vector>
 #include <fstream> //Para ler e escrever arquivos .txt
@@ -17,9 +12,7 @@
 #include "Eventos.h"
 #include "Processos.h"
 #include "Comp.h"
-
 using namespace std;
-
 
 int main( ){
     
