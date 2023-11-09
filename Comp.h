@@ -14,6 +14,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include "Eventos.h"
 #include "Queue.h"
 #include "Priority_queue.h"
 #include "Processos.h"
@@ -22,11 +23,16 @@ using namespace std;
 
 class Computador {
 private:
-    vector< Process* > Processos;
-    vector< Evento   > Eventos;    
-    Queue<int > CPU;
-    Queue<int > Disco1;
-    Queue<int > Disco2;
+    RegistroEventos* eventos;
+    vector< Process* > Processos;    
+    Queue < Process* > CPU;
+    int esperaCpu = 0;
+
+    Queue < Process* > Disco1;
+    int esperaDisco1 = 0;
+    
+    Queue < Process* > Disco2;
+    int esperaDisco2 = 0;
     //PriorityQueue<int > CPUp;
     //PriorityQueue<int > Disco1p;
     //PriorityQueue<int > Disco2p;
@@ -49,9 +55,32 @@ public:
         for (auto processo : Processos) {
             if (processo->Instante == currentTime) {
                 //passo para verificar se é o primeiro processo da cpu
-                    //if()
-                    CPU.push(processo ->TempoCPU);
-                
+                    if(CPU.empty()){
+                        
+                        CPU.push(processo);
+                        processo -> TempoDeEsp = 0;
+                        esperaCpu += processo ->TempoCPU;
+                    
+                    }else{
+                    //verifica se o processo que ja esta sendo executado ja terminou
+                        if(CPU.front() -> TempoCPU == currentTime - CPU.front() ->TempoDeEsp){
+                            esperaCpu -= CPU.front() ->TempoCPU;
+                            //processo concluido na cpu, manda pra disco    
+                            
+                            CPU.pop();
+                        }
+
+                        CPU.push(processo);
+                        // verificar o calculo.
+                        processo -> TempoDeEsp = currentTime;
+                        esperaCpu += processo ->TempoCPU;
+
+                    }
+
+
+
+
+
             }
         }
         //refazer a logica
