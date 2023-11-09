@@ -21,21 +21,20 @@
 
 using namespace std;
 
+
+
 class Computador {
 private:
-    RegistroEventos* eventos;
+    RegistroEventos evento;
     vector< Process* > Processos;    
     Queue < Process* > CPU;
     int esperaCpu = 0;
 
     Queue < Process* > Disco1;
-    int esperaDisco1 = 0;
+    int esperaDisco1 = 0, instanteDisco1 = 0;
     
     Queue < Process* > Disco2;
-    int esperaDisco2 = 0;
-    //PriorityQueue<int > CPUp;
-    //PriorityQueue<int > Disco1p;
-    //PriorityQueue<int > Disco2p;
+    int esperaDisco2 = 0, instanteDisco2 = 0;
 
 public:
 
@@ -50,7 +49,7 @@ public:
         return CPU.empty() && Disco1.empty() && Disco2.empty();
     }
     
-    void executeStep(int currentTime) {
+    void executeCPU(int currentTime) {
         if(!Processos.empty())
         for (auto processo : Processos) {
             if (processo->Instante == currentTime) {
@@ -58,47 +57,91 @@ public:
                     if(CPU.empty()){
                         
                         CPU.push(processo);
-                        processo -> TempoDeEsp = 0;
+                        processo -> TempoDeEsp = 0;      //como nao tem ninguem na fila, entao nao tem tempo de espera.
                         esperaCpu += processo ->TempoCPU;
                     
                     }else{
-                    //verifica se o processo que ja esta sendo executado ja terminou
+                    //verificar se o processo que ja esta sendo executado ja terminou
                         if(CPU.front() -> TempoCPU == currentTime - CPU.front() ->TempoDeEsp){
-                            esperaCpu -= CPU.front() ->TempoCPU;
-                            //processo concluido na cpu, manda pra disco    
                             
+                            esperaCpu -= CPU.front() -> TempoCPU;
+                            //atualiza o tempo que chegou ao disco e manda para o disco.
+                            CPU.front() ->instanteDeDisco = currentTime;
+                            executeDisco( CPU.front(), currentTime );
+                            // tira da fila de cpu 
                             CPU.pop();
+
                         }
 
                         CPU.push(processo);
                         // verificar o calculo.
-                        processo -> TempoDeEsp = currentTime;
+                        processo -> TempoDeEsp = esperaCpu - currentTime ;
                         esperaCpu += processo ->TempoCPU;
-
                     }
-
-
-
-
-
             }
+
         }
+
+    }
+    
+        void executeDisco (Process* processo, int currentTime){
         //refazer a logica
         //implementar a base para a priority_queue
-        /*
+        
         random_device rd; // Seed para o gerador de números aleatórios
         mt19937 gen(rd()); // Mersenne Twister engine
         uniform_int_distribution<> dis(0, 1); // Distribuição uniforme para escolher entre os vetores 0 e 
         int escolha = dis(gen); // Escolhe aleatoriamente entre 0 e 1
 
-        if (escolha == 0) {
-            Disco1.push(process ->TempoDisco);
-        } else {
-            Disco2.push(process ->TempoDisco);
-        }
-        */
+        if ( Disco1.empty() && Disco2.empty( ) ) {
+            if (escolha == 0 ) {
+                
+                Disco1.push(processo);
+                processo -> TempoDeEsp += 0;
+                esperaDisco1 += processo -> TempoDisco;
+                
+            } else {
+                
+                Disco2.push(processo);
+                processo -> TempoDeEsp += 0;
+                esperaDisco2 += processo -> TempoDisco;
+
+            }
+
+        }else if( !Disco1.empty() && !Disco2.empty( ) ){    
+            if (escolha == 0 ) {
+                if(Disco1.front() -> TempoDisco <= currentTime - Disco1.front() ->instanteDeDisco ){
+                        esperaDisco1 -= CPU.front() -> TempoCPU;
+                        //manda pra rede  
+                        Disco1.pop();
+                }
+                        Disco1.push(processo);
+                        // verificar o calculo.
+                        processo -> TempoDeEsp = esperaDisco1 - currentTime ;
+                        esperaDisco1 += processo ->TempoDisco;
+                
+            } else {
+                
+                Disco2.push(processo);
+                processo -> TempoDeEsp += 0;
+                esperaDisco2 += processo -> TempoDisco;
+
+            }
         
-    }
+        }else if(Disco1.empty()){
+            Disco1.push(processo);
+            processo -> TempoDeEsp += 0;
+            esperaDisco1 += processo -> TempoDisco;
+            
+        }else{
+            Disco2.push(processo);
+            processo -> TempoDeEsp += 0;
+            esperaDisco2 += processo -> TempoDisco;
+        }
+
+        
+        }
+        
     
     // Destrutor para liberar a memória alocada dinamicamente
     ~Computador() {
@@ -107,6 +150,7 @@ public:
             delete processo;
         }
     }
+    
 
 
 
