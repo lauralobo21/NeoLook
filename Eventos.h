@@ -1,24 +1,26 @@
-#ifndef EVENTOS_H
-#define EVENTOS_H
+#include <string>
+#include <vector>
 
+using namespace std;
 
-struct Evento 
-{
+class RegistroEventos {
+private:
+    struct Evento {
+        int tempo;
+        string descricao;
+    };
 
-    int instanteDeTempo;   // Tempo do evento 
-    string acontecimento;  // Descrição do evento
-    // posso fazer um codigo de registro, para facilitar a leitura pelo codigo
-    // assim, ao inves de ler o acontecimente, ele iria ler o codigo do acontecimento
-    int indetifica;        // codigo de registro do acontecimento
+    vector<Evento> eventos;
 
+public:
+    void registrarEvento(int tempo, const std::string& descricao) {
+        eventos.push_back({tempo, descricao});
+    }
+
+    void gerarRelatorio() const {
+        cout << "Relatório de Eventos:" << std::endl;
+        for (const auto& evento : eventos) {
+            cout << "Tempo: " << evento.tempo << " - " << evento.descricao << std::endl;
+        }
+    }
 };
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //modelo de impressao
-    //cout << "Tempo: " << currentTime << " - Processo " << processo->id << " chegou na CPU" << endl;
-#endif
