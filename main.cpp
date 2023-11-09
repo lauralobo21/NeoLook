@@ -5,6 +5,7 @@
 */
 
 
+
 // NÃO NECESSÁRIA PARA A PRIMEIRA PARTE DO PROJETO
 
 
@@ -21,14 +22,19 @@ using namespace std;
 
 
 int main( ){
+    int qtdComp;
+        cout << "Digite a quantidade de computadores: " << endl;
+        cin >> qtdComp;
+
+        RegistroEventos registro;
     
     //
     //Apartir daqui eu leio o arquivo .txt e armazeno os dados.
     //
-
+    
     ifstream arquivo("arquivo_de_entrada_8.txt");
     // Adicione os dados de processo na struct Process
-    vector< Process > baseProcessos;
+    vector< Process > baseProcessos;     
     
     int TotalInst = 0;
     if (arquivo.is_open()) {
@@ -61,13 +67,13 @@ int main( ){
 
     // Inicializa a semente para geração de números aleatórios
     srand(static_cast<unsigned int>(time(0)));
-    vector< Computador > Computadores(1000);
+    vector< Computador > Computadores(qtdComp);
 
     // Adiciona processos aleatoriamente aos computadores usando ponteiros para Process
     for (const auto& processoDados : baseProcessos) {
         // Gera um número aleatório de 0 a 999 para definir qual computador ira receber o processo.
         // Escolhe um computador aleatório para adicionar o processo
-        int computadorIdentidade = rand() % 1000; 
+        int computadorIdentidade = rand() % qtdComp; 
         
         // Aloca dinamicamente um novo processo
         Process* novoProcesso = new Process;
@@ -92,7 +98,6 @@ int main( ){
         cout << "Tempo: " << InstanteExato << endl;
         for (auto& computador : Computadores) {
             computador.executeStep(InstanteExato);
-            //direcionamento dos dados e em sequencia a partida para o o bloco de rede
         }
     }
 
