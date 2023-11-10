@@ -62,7 +62,7 @@ int main( ){
         cout << "Erro ao abrir o arquivo." << endl;
         return 1; // Retorna um código de erro se o arquivo não puder ser aberto
     }
-
+    registro.registrarEvento( -1, "Todos os processos foram Colocados na base de dados.");
         //
         //Apartir daqui eu começo a distribuir os processos de forma aleatoria nos computadores
         //
@@ -71,12 +71,16 @@ int main( ){
     srand(static_cast<unsigned int>(time(0)));
 
     vector< Computador > Computadores(qtdComp);
-
+    //registro do evento.
+    registro.registrarEvento( -1, "Todos os Computadores foram criados");
+    
     // Adiciona processos aleatoriamente aos computadores usando ponteiros para Process
+
     for (const auto& processoDados : baseProcessos) {
-        // Gera um número aleatório de 0 a 999 para definir qual computador ira receber o processo.
+
+        // Gera um número aleatório de 0 a Quantidade de computadores para definir qual computador ira receber o processo.
         // Escolhe um computador aleatório para adicionar o processo
-        int computadorIdentidade = rand() % qtdComp; 
+        int computadorIdentidade = rand() % qtdComp;
         
         // Aloca dinamicamente um novo processo
         Process* novoProcesso = new Process;
@@ -90,6 +94,9 @@ int main( ){
         novoProcesso->ComputadorId = computadorIdentidade; // Define o ID do computador que foi atribuido   
         // Adiciona o novo processo ao computador usando o ponteiro
         Computadores[computadorIdentidade].addProcess(novoProcesso);
+            //registro do evento.
+            string saida = "O processo foi adicionado no computador " + computadorIdentidade;
+            registro.registrarEvento(-1, saida);
     }
 
     //
