@@ -72,7 +72,7 @@ public:
                             CPU.pop();
 
                         }
-
+                        //apos retirar ou nao, segue o processo normalmente.
                         CPU.push(processo);
                         // verificar o calculo.
                         processo -> TempoDeEsp = esperaCpu - currentTime ;
@@ -84,7 +84,7 @@ public:
 
     }
     
-        void executeDisco (Process* processo, int currentTime){
+    void executeDisco (Process* processo, int currentTime){
         //refazer a logica
         //implementar a base para a priority_queue
         
@@ -111,7 +111,7 @@ public:
         }else if( !Disco1.empty() && !Disco2.empty( ) ){    
             if (escolha == 0 ) {
                 if(Disco1.front() -> TempoDisco <= currentTime - Disco1.front() ->instanteDeDisco ){
-                        esperaDisco1 -= CPU.front() -> TempoCPU;
+                        esperaDisco1 -= Disco1.front() -> TempoDisco;
                         //manda pra rede  
                         Disco1.pop();
                 }
@@ -121,11 +121,15 @@ public:
                         esperaDisco1 += processo ->TempoDisco;
                 
             } else {
-                
-                Disco2.push(processo);
-                processo -> TempoDeEsp += 0;
-                esperaDisco2 += processo -> TempoDisco;
-
+                if(Disco2.front() -> TempoDisco <= currentTime - Disco2.front() ->instanteDeDisco ){
+                        esperaDisco2 -= Disco2.front() -> TempoDisco;
+                        //manda pra rede  
+                        Disco2.pop();
+                }
+                        Disco2.push(processo);
+                        // verificar o calculo.
+                        processo -> TempoDeEsp = esperaDisco2 - currentTime ;
+                        esperaDisco2 += processo ->TempoDisco;
             }
         
         }else if(Disco1.empty()){
@@ -140,7 +144,7 @@ public:
         }
 
         
-        }
+    }
         
     
     // Destrutor para liberar a memória alocada dinamicamente
