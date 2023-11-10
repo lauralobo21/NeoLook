@@ -23,6 +23,7 @@ using namespace std;
 
 int main( ){
     int qtdComp;
+    string dados;
         cout << "Digite a quantidade de computadores: " << endl;
         cin >> qtdComp;
 
@@ -32,15 +33,16 @@ int main( ){
     //Apartir daqui eu leio o arquivo .txt e armazeno os dados.
     //
     
-    ifstream arquivo("arquivo_de_entrada_8.txt");
+    cin >> dados;
+    ifstream arquivo(dados+".txt");
     // Adicione os dados de processo na struct Process
     vector< Process > baseProcessos;     
     
     int TotalInst = 0;
     if (arquivo.is_open()) {
         Process processo;
-        int processoId = 1;
         // Loop para ler os dados do arquivo e armazená-los no vetor
+        int processoId = 1;
         while (arquivo >> processo.Instante >> processo.TempoCPU >> processo.TempoDisco >> processo.TempoRede) {
             // Atribui o ID do processo sequencialmente
                 processo.id = processoId; 
@@ -67,6 +69,7 @@ int main( ){
 
     // Inicializa a semente para geração de números aleatórios
     srand(static_cast<unsigned int>(time(0)));
+
     vector< Computador > Computadores(qtdComp);
 
     // Adiciona processos aleatoriamente aos computadores usando ponteiros para Process
@@ -97,7 +100,7 @@ int main( ){
     for (int InstanteExato = 0; InstanteExato < InstMax; ++InstanteExato) {
         cout << "Tempo: " << InstanteExato << endl;
         for (auto& computador : Computadores) {
-            computador.executeStep(InstanteExato);
+            computador.executeCPU(InstanteExato);
         }
     }
 
